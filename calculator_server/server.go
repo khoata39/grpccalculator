@@ -6,8 +6,9 @@ import (
 	"log"
 	"net"
 
-	pb "../calulatorpb/calculator.pb.go"
 	"google.golang.org/grpc"
+
+	pb "github.com/khoata39/grpc-caculator/calculatorpb"
 )
 
 type server struct{}
