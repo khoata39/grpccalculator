@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	pb "github.com/khoata39/grpccalculator/calculatorpb"
 	"google.golang.org/grpc"
 )
 
@@ -17,9 +18,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := calculatorpb.NewCalculatorServiceClient(conn)
+	c := pb.NewCalculatorServiceClient(conn)
 
-	req := &calculatorpb.SumRequest{
+	req := &pb.SumRequest{
 		First_Number:  10,
 		Second_Number: 42,
 	}

@@ -2,16 +2,22 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"net"
 
+	pb "github.com/khoata39/grpccalculator/calculatorpb"
 	"google.golang.org/grpc"
-
-	pb "github.com/khoata39/grpc-caculator/calculatorpb"
 )
 
-type server struct{}
+type server struct {
+	pb.CalculatorServiceServer
+}
+
+var (
+	port = flag.Int("port", 50051, "The server port")
+)
 
 func (*server) Sum(ctx context.Context, req *pb.SumRequest) (*pb.SumResponse, error) {
 	fmt.Printf("Sum function called with : %v\n", req)
@@ -28,9 +34,9 @@ func (*server) Sum(ctx context.Context, req *pb.SumRequest) (*pb.SumResponse, er
 func main() {
 	fmt.Println("Hello, I am gRPC Server!")
 
-	lis, err := net.Listen("tcp", "0.0.0.0:50051")
+	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
 	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 
 	s := grpc.NewServer()
